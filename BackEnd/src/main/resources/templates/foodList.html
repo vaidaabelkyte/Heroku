@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="header :: header" />
+
+<body>
+	<div th:replace="header :: navbar" />
+
+
+	<i><h1 class="text-center">Menu</h1></i>
+	<div class="container">
+		<div class="table-responsive">
+			<table id="foodListTable"
+				class="table table-bordered table-hover table-striped">
+				<thead>
+				<tr>
+				<th><input th:id="selectAllFoods" type="checkbox"/></th>
+				<th>name</th>
+				<th>type</th>
+				<th>category</th>
+				<th>calories</th>
+				<th>price</th>
+				<th>active?</th>
+				<th>action</th>
+				</tr>
+				</thead>
+				
+				<tbody>
+				<tr data-th-each="food : ${foodList}">
+				<td>
+				<input hidden="hidden" name="id" th:value="${food.id}"/>
+				<input th:id="'selected'+${food.id}" class="checkboxFood" type="checkbox"/>
+				</td>
+				
+				<td><a  th:href="@{/food/orderInfo(id=${food.id})}" > <span th:text="${food.foodName}"></span></a></td>
+				<td th:text="${food.type}"></td>
+				<td th:text="${food.category}"></td>
+				<td th:text="${food.numberOfCalories}"></td>
+				<td th:text="${food.price}"></td>
+				<td th:text="${food.active}"></td>
+				<td>
+					<input hidden="hidden" name="id" th:value="${food.id}"/>
+					<button th:id="'oneFood-'+${food.id}" class="btn btn-danger btn-xs delete-food" type="submit" value="delete">
+					<span class="fa fa-times"></span>Delete</button>
+				</td>
+				</tr>
+				</tbody>
+			</table>
+			
+		</div>
+		<button th:id="deleteSelected" class="btn btn-danger">Deelete Selected</button>
+		</div>
+
+
+	<div th:replace="header :: body-bottom-scripts" />
+	
+	<script>
+	$(document).ready(function() {
+		$("#foodListTable").DataTable({
+			"lengthMenu":[[5,10,15,20,-1],[5,10,15,20,"All"]],
+		"ordering": false,
+		stateSave: true
+		});
+		
+	});
+	</script>
+	
+	
+</body>
+</html>
